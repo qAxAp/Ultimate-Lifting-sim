@@ -1,0 +1,110 @@
+-- Create ScreenGui and Main Frame
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local main = Instance.new("Frame")
+main.Name = "main"
+main.Parent = ScreenGui
+main.BackgroundColor3 = Color3.fromRGB(75, 0, 130)  -- Purple color
+main.Position = UDim2.new(0.2, 0, 0.2, 0)
+main.Size = UDim2.new(0, 400, 0, 300)
+main.Visible = false
+main.Active = true
+main.Draggable = true
+
+-- Title Bar
+local titleBar = Instance.new("Frame")
+titleBar.Name = "TitleBar"
+titleBar.Parent = main
+titleBar.BackgroundColor3 = Color3.fromRGB(25, 25, 112)  -- Dark blue color (similar to black)
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+
+local titleText = Instance.new("TextLabel")
+titleText.Name = "TitleText"
+titleText.Parent = titleBar
+titleText.BackgroundColor3 = Color3.fromRGB(25, 25, 112)
+titleText.Size = UDim2.new(1, 0, 1, 0)
+titleText.Font = Enum.Font.GothamBold
+titleText.Text = "Game Hacks"
+titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleText.TextScaled = true
+
+-- Close Button
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "CloseButton"
+closeButton.Parent = titleBar
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.Position = UDim2.new(1, -30, 0, 0)
+closeButton.Size = UDim2.new(0, 30, 1, 0)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.TextScaled = true
+closeButton.TextWrapped = true
+closeButton.AutoButtonColor = false
+
+-- Content Buttons
+local function createButton(name, text, yPos, onClick)
+    local button = Instance.new("TextButton")
+    button.Name = name
+    button.Parent = main
+    button.BackgroundColor3 = Color3.fromRGB(147, 112, 219)  -- Purple color
+    button.Position = UDim2.new(0.05, 0, yPos, 0)
+    button.Size = UDim2.new(0.9, 0, 0, 40)
+    button.Font = Enum.Font.GothamBold
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextScaled = true
+    button.TextWrapped = true
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 8)
+    UICorner.Parent = button
+
+    button.MouseButton1Click:Connect(onClick)
+end
+
+-- Adjusted 'bar' button event handler with automatic strength increase
+createButton("ULSButton", "ULS HACK!", 0.15, function()
+    -- Continuous strength increase every 2 seconds
+    local strengthIncrease = 10
+    while true do
+        wait(2) -- Adjust the interval (in seconds) between each increase
+
+        game:GetService("ReplicatedStorage").Events.bar:InvokeServer(strengthIncrease)
+    end
+end)
+
+createButton("RebButton", "Auto Reb!", 0.35, function()
+    game:GetService("ReplicatedStorage").Events.Rebirth:InvokeServer()
+end)
+
+createButton("SpeedButton", "AutoSpeed (must equip flash pet)", 0.55, function()
+    game:GetService("ReplicatedStorage").Events.train:InvokeServer()
+end)
+
+-- Open Button
+local openMainButton = Instance.new("TextButton")
+openMainButton.Name = "OpenMainButton"
+openMainButton.Parent = ScreenGui
+openMainButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+openMainButton.Position = UDim2.new(0, 10, 0.5, -15)
+openMainButton.Size = UDim2.new(0, 100, 0, 30)
+openMainButton.Font = Enum.Font.GothamBold
+openMainButton.Text = "Open Gui"
+openMainButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+openMainButton.TextScaled = true
+openMainButton.TextWrapped = true
+openMainButton.AutoButtonColor = false
+
+openMainButton.MouseButton1Click:Connect(function()
+    main.Visible = true
+    openMainButton.Visible = false
+end)
+
+-- Close Button Functionality
+closeButton.MouseButton1Click:Connect(function()
+    main.Visible = false
+    openMainButton.Visible = true
+end)
